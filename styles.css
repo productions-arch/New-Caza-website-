@@ -176,7 +176,9 @@ a { color: inherit; }
   transform: translateX(-50%);
   font-family: var(--font-davinci);
   font-weight: var(--weight-medium);
-  font-size: clamp(96px, 40vw, var(--text-display));
+  /* "CAZA" is only 4 glyphs — it must be sized much larger than a 10-letter
+     word to crop at the viewport edges and "feel larger than the screen". */
+  font-size: clamp(160px, 52vw, 760px);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-tight);
   color: var(--color-ink);
@@ -212,7 +214,7 @@ a { color: inherit; }
 .manifesto-body p { font-size: 16px; line-height: var(--leading-body-sm); }
 
 /* ─────────────  FLOATING CARD OVER CLASSICAL PAINTING PANEL  ───────────── */
-/* Full-bleed image panel — flat Ash placeholder (classical painting or nothing) */
+/* Full-bleed image panel — classical painting; flat Ash shows if it fails to load */
 .canvas-section {
   position: relative;
   min-height: 78vh;
@@ -220,6 +222,7 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   background-color: var(--color-ash);
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/El%20Greco%20-%20View%20of%20Toledo%20-%20Google%20Art%20Project.jpg?width=1600");
   background-size: cover;
   background-position: center;
   padding: var(--spacing-96) var(--spacing-20);
@@ -305,6 +308,16 @@ a { color: inherit; }
   background-color: var(--color-ash);
   background-size: cover;
   background-position: center;
+}
+/* Circular crops of classical paintings (Ash fallback if a URL 404s) */
+.vignette-circle--one {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Sandro%20Botticelli%20-%20La%20nascita%20di%20Venere%20-%20Google%20Art%20Project%20-%20edited.jpg?width=500");
+}
+.vignette-circle--two {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/1665%20Girl%20with%20a%20Pearl%20Earring.jpg?width=500");
+}
+.vignette-circle--three {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Canestra%20di%20frutta%20(Caravaggio).jpg?width=500");
 }
 .vignette-name { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
 /* Hexagonal Nav Indicator — ~12px outline, white stroke on dark */
@@ -402,6 +415,18 @@ a { color: inherit; }
   background-color: var(--color-ash);
   background-size: cover;
   background-position: center;
+}
+.project-art--one {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Pieter%20Bruegel%20the%20Elder%20-%20The%20Tower%20of%20Babel%20(Vienna)%20-%20Google%20Art%20Project%20-%20edited.jpg?width=900");
+}
+.project-art--two {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Mona%20Lisa,%20by%20Leonardo%20da%20Vinci,%20from%20C2RMF%20retouched.jpg?width=900");
+}
+.project-art--three {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/El%20Greco%20-%20View%20of%20Toledo%20-%20Google%20Art%20Project.jpg?width=900");
+}
+.project-art--four {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Canestra%20di%20frutta%20(Caravaggio).jpg?width=900");
 }
 .project-info { display: flex; flex-direction: column; gap: var(--spacing-16); }
 .project-meta { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-graphite); }
