@@ -1,0 +1,506 @@
+/* ═══════════════════════════════════════════════════════════════
+   CAZA — Structured design system
+   Renaissance gallery on putty paper
+   Flat surfaces · hard light/dark cuts · no gradients · no shadows
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Colors */
+  --color-putty: #c4c3b6;
+  --color-ink: #000000;
+  --color-bone: #e7e5e4;
+  --color-chalk: #ebebeb;
+  --color-vellum: #dfdcd5;
+  --color-graphite: #595855;
+  --color-ash: #808080;
+  --color-paper: #ffffff;
+
+  /* Fonts — Davinci (serif) → Playfair Display; Helvetica Now (grotesk) → Inter */
+  --font-davinci: 'Playfair Display', Canela, 'Tiempos Headline', Georgia, serif;
+  --font-helvetica-now: 'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Type scale (exact spec sizes / line-heights) */
+  --text-body-sm: 15px;       --leading-body-sm: 1.5;
+  --text-subheading: 22px;    --leading-subheading: 1.33;
+  --text-heading-sm: 26px;    --leading-heading-sm: 1.33;
+  --text-heading: 43px;       --leading-heading: 1.1;
+  --text-heading-lg: 52px;    --leading-heading-lg: 1;
+  --text-display: 374px;      --leading-display: 0.84;
+
+  /* Tracking tiers — em-based so they hit the exact px target at every size.
+     -0.009em → -3.37px @374, -0.85px @94, -0.47px @52
+     -0.005em → -0.215px @43, -0.13px @26, -0.11px @22 */
+  --tracking-tight: -0.009em;
+  --tracking-mid: -0.005em;
+  --tracking-fine: -0.001em;
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  /* Spacing */
+  --spacing-4: 4px;   --spacing-16: 16px; --spacing-20: 20px; --spacing-28: 28px;
+  --spacing-32: 32px; --spacing-36: 36px; --spacing-40: 40px; --spacing-52: 52px;
+  --spacing-60: 60px; --spacing-96: 96px; --spacing-168: 168px;
+
+  /* Layout */
+  --section-gap: 80px;
+  --card-padding: 24px;
+  --element-gap: 6px;
+
+  /* Radius */
+  --radius-links: 2px;
+  --radius-cards: 9px;
+  --radius-buttons: 28.8px;
+}
+
+/* ───────────────────────────  RESET  ─────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-putty);
+  color: var(--color-ink);
+  font-family: var(--font-helvetica-now);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; }
+
+/* ───────────────────  SHARED LABELS / BUTTONS  ─────────────────── */
+.section-label {
+  font-family: var(--font-helvetica-now);
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+.section-label--light { color: var(--color-paper); opacity: 0.6; }
+
+/* Pill Action Button — filled black pill, white text, compact capsule */
+.pill-button {
+  display: inline-block;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-helvetica-now);
+  font-size: 12px;
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 9px 17px;
+  border-radius: var(--radius-buttons);
+  border: none;
+  transition: opacity 0.2s ease;
+}
+.pill-button:hover { opacity: 0.82; }
+.pill-button--invert { background: var(--color-paper); color: var(--color-ink); }
+
+/* Ghost Text Link — text only, underline on hover */
+.ghost-link {
+  font-family: var(--font-helvetica-now);
+  font-size: 12px;
+  font-weight: var(--weight-regular);
+  text-decoration: none;
+  border-radius: var(--radius-links);
+}
+.ghost-link:hover { text-decoration: underline; }
+.ghost-link--active { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ───────────────────────────  HEADER  ─────────────────────────── */
+/* Minimal: logo mark left, single cluster of text links right. No menu bar. */
+.header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-28) var(--spacing-40);
+}
+.logo-mark { display: inline-flex; color: var(--color-ink); }
+.logo-letter { font-family: var(--font-davinci); font-size: 14px; font-weight: var(--weight-medium); fill: currentColor; }
+.header-nav { display: flex; gap: var(--spacing-28); }
+
+/* ───────────────────────────  HERO  ─────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--color-putty);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.hero-cluster {
+  margin-top: clamp(120px, 18vh, 220px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-20);
+  z-index: 2;
+  padding: 0 var(--spacing-20);
+}
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+/* Sub-heading serif moment — 52px heading-lg */
+.hero-line {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: clamp(34px, 6vw, var(--text-heading-lg));
+  line-height: var(--leading-heading-lg);
+  letter-spacing: var(--tracking-tight);
+  max-width: 16ch;
+}
+.hero-line em { font-style: italic; font-weight: var(--weight-regular); }
+.stat-row { display: flex; gap: var(--spacing-28); }
+.stat { font-size: 16px; font-weight: var(--weight-medium); letter-spacing: 0.04em; }
+
+/* Hero Wordmark — the signature 374px serif, cropped at the viewport edges */
+.hero-wordmark {
+  position: absolute;
+  bottom: -0.16em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  /* "CAZA" is only 4 glyphs — it must be sized much larger than a 10-letter
+     word to crop at the viewport edges and "feel larger than the screen". */
+  font-size: clamp(160px, 52vw, 760px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ───────────────────────────  MANIFESTO  ─────────────────────────── */
+.manifesto {
+  background: var(--color-putty);
+  padding: var(--spacing-168) var(--spacing-40) var(--spacing-96);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-40);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.manifesto-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-heading);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-mid);
+  max-width: 18ch;
+}
+.manifesto-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-40);
+  max-width: 760px;
+}
+.manifesto-body p { font-size: 16px; line-height: var(--leading-body-sm); }
+
+/* ─────────────  FLOATING CARD OVER CLASSICAL PAINTING PANEL  ───────────── */
+/* Full-bleed image panel — classical painting; flat Ash shows if it fails to load */
+.canvas-section {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-ash);
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/El%20Greco%20-%20View%20of%20Toledo%20-%20Google%20Art%20Project.jpg?width=1600");
+  background-size: cover;
+  background-position: center;
+  padding: var(--spacing-96) var(--spacing-20);
+}
+/* Notched Product Card — geometric corner cuts, flat black, 9px primary edges */
+.product-card {
+  position: relative;
+  width: min(400px, 86vw);
+  aspect-ratio: 1 / 1;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border-radius: var(--radius-cards);
+  clip-path: polygon(
+    18px 0, calc(100% - 18px) 0, 100% 18px,
+    100% calc(100% - 18px), calc(100% - 18px) 100%,
+    18px 100%, 0 calc(100% - 18px), 0 18px
+  );
+  padding: var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-20);
+}
+.card-kicker { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
+.card-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-heading-sm);
+  line-height: var(--leading-heading-sm);
+  letter-spacing: var(--tracking-mid);
+}
+.card-meta { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.1em; opacity: 0.6; }
+.card-scroll {
+  position: absolute;
+  left: var(--spacing-20);
+  bottom: var(--spacing-16);
+  font-size: 9px;
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.3em;
+}
+
+/* ───────────────────────  DARK FEATURE (Ink Room)  ─────────────────────── */
+.feature {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--spacing-168) var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-96);
+}
+/* Section Header — 94px serif, centered, carved line-height */
+.feature-heading {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: clamp(56px, 9vw, 94px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  text-align: center;
+  color: var(--color-paper);
+}
+.vignette-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-28);
+  width: 100%;
+  max-width: 900px;
+}
+/* Circular Feature Vignette — serif caption, ~200px circular crop, hex below */
+.vignette { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-28); }
+.vignette-caption {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-mid);
+}
+.vignette-circle {
+  width: 200px;
+  height: 200px;
+  max-width: 56vw;
+  border-radius: 50%;
+  background-color: var(--color-ash);
+  background-size: cover;
+  background-position: center;
+}
+/* Circular crops of classical paintings (Ash fallback if a URL 404s) */
+.vignette-circle--one {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Sandro%20Botticelli%20-%20La%20nascita%20di%20Venere%20-%20Google%20Art%20Project%20-%20edited.jpg?width=500");
+}
+.vignette-circle--two {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/1665%20Girl%20with%20a%20Pearl%20Earring.jpg?width=500");
+}
+.vignette-circle--three {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Canestra%20di%20frutta%20(Caravaggio).jpg?width=500");
+}
+.vignette-name { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; }
+/* Hexagonal Nav Indicator — ~12px outline, white stroke on dark */
+.hex { width: 14px; height: 14px; color: var(--color-paper); }
+
+/* ───────────────────────────  PRINCIPLES  ─────────────────────────── */
+.principles {
+  background: var(--color-bone);
+  padding: var(--spacing-168) var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-60);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.principle-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-52); }
+.principle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  border-top: 1px solid var(--color-vellum);  /* hairline border */
+  padding-top: var(--spacing-28);
+}
+.principle-index { font-family: var(--font-davinci); font-weight: var(--weight-regular); font-size: var(--text-heading-sm); }
+.principle-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-mid);
+}
+.principle-text { font-size: 15px; line-height: var(--leading-body-sm); color: var(--color-graphite); }
+
+/* ───────────────────────────  CONTACT  ─────────────────────────── */
+.contact {
+  background: var(--color-putty);
+  padding: var(--spacing-168) var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-28);
+}
+.contact-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-heading-lg);
+  line-height: var(--leading-heading-lg);
+  letter-spacing: var(--tracking-tight);
+}
+.contact-text { font-size: 16px; max-width: 42ch; color: var(--color-graphite); }
+.contact .pill-button { margin-top: var(--spacing-16); }
+
+/* ─────────────  PAGE HEAD (interior pages)  ───────────── */
+.page-head {
+  background: var(--color-putty);
+  padding: clamp(140px, 22vh, 240px) var(--spacing-40) var(--spacing-96);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-28);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.page-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: clamp(56px, 10vw, 94px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+}
+.page-lede { font-size: 16px; line-height: var(--leading-body-sm); max-width: 52ch; color: var(--color-graphite); }
+
+/* ─────────────  SLATE / PROJECTS  ───────────── */
+.slate {
+  background: var(--color-bone);
+  padding: var(--spacing-96) var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-96);
+}
+.project {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-60);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.project--reverse .project-art { order: 2; }
+/* Classical painting reproduction — flat Ash placeholder, hairline-free, 9px edge */
+.project-art {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-cards);
+  background-color: var(--color-ash);
+  background-size: cover;
+  background-position: center;
+}
+.project-art--one {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Pieter%20Bruegel%20the%20Elder%20-%20The%20Tower%20of%20Babel%20(Vienna)%20-%20Google%20Art%20Project%20-%20edited.jpg?width=900");
+}
+.project-art--two {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Mona%20Lisa,%20by%20Leonardo%20da%20Vinci,%20from%20C2RMF%20retouched.jpg?width=900");
+}
+.project-art--three {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/El%20Greco%20-%20View%20of%20Toledo%20-%20Google%20Art%20Project.jpg?width=900");
+}
+.project-art--four {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Canestra%20di%20frutta%20(Caravaggio).jpg?width=900");
+}
+.project-info { display: flex; flex-direction: column; gap: var(--spacing-16); }
+.project-meta { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-graphite); }
+.project-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-heading);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-mid);
+}
+.project-logline { font-size: 16px; line-height: var(--leading-body-sm); max-width: 46ch; }
+.project-credit { font-size: 12px; font-weight: var(--weight-medium); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-graphite); }
+
+/* ─────────────  DARK CTA STRIP  ───────────── */
+.strip {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--spacing-168) var(--spacing-40);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-40);
+  text-align: center;
+}
+.strip-title {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-heading-lg);
+  line-height: var(--leading-heading-lg);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-paper);
+}
+
+/* ───────────────────────────  FOOTER (Chalk)  ─────────────────────────── */
+.footer {
+  background: var(--color-chalk);
+  padding: var(--spacing-96) var(--spacing-40) var(--spacing-52);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-40);
+  overflow: hidden;
+}
+.footer-mark {
+  font-family: var(--font-davinci);
+  font-weight: var(--weight-medium);
+  font-size: clamp(80px, 22vw, 240px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+.footer-meta {
+  display: flex;
+  gap: var(--spacing-40);
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+
+/* ───────────────────────────  RESPONSIVE  ─────────────────────────── */
+@media (max-width: 760px) {
+  .header { padding: var(--spacing-20); }
+  .header-nav { gap: var(--spacing-16); }
+  .manifesto, .feature, .principles, .contact,
+  .page-head, .slate, .strip { padding-left: var(--spacing-20); padding-right: var(--spacing-20); }
+  .manifesto-body { grid-template-columns: 1fr; }
+  .vignette-grid { grid-template-columns: 1fr; gap: var(--spacing-52); }
+  .principle-list { grid-template-columns: 1fr; gap: var(--spacing-40); }
+  .manifesto { padding-top: var(--spacing-96); }
+  .feature, .principles, .contact, .strip { padding-top: var(--spacing-96); padding-bottom: var(--spacing-96); }
+  .project { grid-template-columns: 1fr; gap: var(--spacing-28); }
+  .project--reverse .project-art { order: 0; }
+}
